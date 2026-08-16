@@ -1,0 +1,85 @@
+export const POSITIONS = [
+  'Goleiro',
+  'Zagueiro',
+  'Lateral',
+  'Meio-campo',
+  'Atacante',
+] as const
+
+export type Position = (typeof POSITIONS)[number]
+
+export interface Athlete {
+  id: string
+  name: string
+  position: Position
+  club: string
+  photoUrl: string
+  instagramUrl: string
+}
+
+export const ATHLETES_DATA: Athlete[] = [
+  {
+    id: 'joao-pedro-silva',
+    name: 'João Pedro Silva',
+    position: 'Goleiro',
+    club: 'Athletico Paranaense',
+    photoUrl: 'https://placehold.co/400x500.webp?text=Jo%C3%A3o+Pedro',
+    instagramUrl: 'https://www.instagram.com/joaopedrosilva/',
+  },
+  {
+    id: 'rafael-costa',
+    name: 'Rafael Costa',
+    position: 'Zagueiro',
+    club: 'Grêmio',
+    photoUrl: 'https://placehold.co/400x500.webp?text=Rafael+Costa',
+    instagramUrl: 'https://www.instagram.com/rafaelcosta/',
+  },
+  {
+    id: 'lucas-martins',
+    name: 'Lucas Martins',
+    position: 'Zagueiro',
+    club: 'Cruzeiro',
+    photoUrl: 'https://placehold.co/400x500.webp?text=Lucas+Martins',
+    instagramUrl: 'https://www.instagram.com/lucasmartins/',
+  },
+  {
+    id: 'gabriel-almeida',
+    name: 'Gabriel Almeida',
+    position: 'Lateral',
+    club: 'Fortaleza',
+    photoUrl: 'https://placehold.co/400x500.webp?text=Gabriel+Almeida',
+    instagramUrl: 'https://www.instagram.com/gabrielalmeida/',
+  },
+  {
+    id: 'thiago-souza',
+    name: 'Thiago Souza',
+    position: 'Meio-campo',
+    club: 'Bahia',
+    photoUrl: 'https://placehold.co/400x500.webp?text=Thiago+Souza',
+    instagramUrl: 'https://www.instagram.com/thiagosouza/',
+  },
+  {
+    id: 'matheus-oliveira',
+    name: 'Matheus Oliveira',
+    position: 'Meio-campo',
+    club: 'Vasco da Gama',
+    photoUrl: 'https://placehold.co/400x500.webp?text=Matheus+Oliveira',
+    instagramUrl: 'https://www.instagram.com/matheusoliveira/',
+  },
+  {
+    id: 'pedro-henrique',
+    name: 'Pedro Henrique',
+    position: 'Atacante',
+    club: 'Red Bull Bragantino',
+    photoUrl: 'https://placehold.co/400x500.webp?text=Pedro+Henrique',
+    instagramUrl: 'https://www.instagram.com/pedrohenrique/',
+  },
+  {
+    id: 'bruno-fernandes',
+    name: 'Bruno Fernandes',
+    position: 'Atacante',
+    club: 'Goiás',
+    photoUrl: 'https://placehold.co/400x500.webp?text=Bruno+Fernandes',
+    instagramUrl: 'https://www.instagram.com/brunofernandes/',
+  },
+]
