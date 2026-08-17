@@ -36,19 +36,22 @@ export function Athletes() {
   return (
     <>
       <Seo title={meta.title} description={meta.description} path={meta.path} image={meta.ogImage} jsonLd={jsonLd} />
+
+      <section className="border-b-2 border-ink-900 bg-ink-50">
+        <Container className="py-24">
+          <SectionHeading
+            as="h1"
+            eyebrow="Portfólio"
+            title="Atletas agenciados"
+            description="Conheça os atletas representados pela Urbini Global Sports, filtrando por posição em campo."
+          />
+        </Container>
+      </section>
+
       <Container className="py-16">
-        <SectionHeading
-          as="h1"
-          eyebrow="Portfólio"
-          title="Atletas agenciados"
-          description="Conheça os atletas representados pela Urbini Sports, filtrando por posição em campo."
-        />
+        <PositionFilter value={filter} onChange={setFilter} />
 
-        <div className="mt-8">
-          <PositionFilter value={filter} onChange={setFilter} />
-        </div>
-
-        <div className="mt-8">
+        <div className="mt-10">
           <AthleteGrid athletes={filteredAthletes} />
         </div>
       </Container>

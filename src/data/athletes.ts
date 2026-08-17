@@ -23,7 +23,7 @@ export const ATHLETES_DATA: Athlete[] = [
     name: 'João Pedro Silva',
     position: 'Goleiro',
     club: 'Athletico Paranaense',
-    photoUrl: 'https://placehold.co/400x500.webp?text=Jo%C3%A3o+Pedro',
+    photoUrl: '/athletes/joao-pedro.jpg',
     instagramUrl: 'https://www.instagram.com/joaopedrosilva/',
   },
   {
@@ -31,7 +31,7 @@ export const ATHLETES_DATA: Athlete[] = [
     name: 'Rafael Costa',
     position: 'Zagueiro',
     club: 'Grêmio',
-    photoUrl: 'https://placehold.co/400x500.webp?text=Rafael+Costa',
+    photoUrl: '/athletes/rafael-costa.jpg',
     instagramUrl: 'https://www.instagram.com/rafaelcosta/',
   },
   {
@@ -39,7 +39,7 @@ export const ATHLETES_DATA: Athlete[] = [
     name: 'Lucas Martins',
     position: 'Zagueiro',
     club: 'Cruzeiro',
-    photoUrl: 'https://placehold.co/400x500.webp?text=Lucas+Martins',
+    photoUrl: '/athletes/lucas-martins.jpg',
     instagramUrl: 'https://www.instagram.com/lucasmartins/',
   },
   {
@@ -47,7 +47,7 @@ export const ATHLETES_DATA: Athlete[] = [
     name: 'Gabriel Almeida',
     position: 'Lateral',
     club: 'Fortaleza',
-    photoUrl: 'https://placehold.co/400x500.webp?text=Gabriel+Almeida',
+    photoUrl: '/athletes/gabriel-almeida.jpg',
     instagramUrl: 'https://www.instagram.com/gabrielalmeida/',
   },
   {
@@ -55,7 +55,7 @@ export const ATHLETES_DATA: Athlete[] = [
     name: 'Thiago Souza',
     position: 'Meio-campo',
     club: 'Bahia',
-    photoUrl: 'https://placehold.co/400x500.webp?text=Thiago+Souza',
+    photoUrl: '/athletes/thiago-souza.jpg',
     instagramUrl: 'https://www.instagram.com/thiagosouza/',
   },
   {
@@ -63,7 +63,7 @@ export const ATHLETES_DATA: Athlete[] = [
     name: 'Matheus Oliveira',
     position: 'Meio-campo',
     club: 'Vasco da Gama',
-    photoUrl: 'https://placehold.co/400x500.webp?text=Matheus+Oliveira',
+    photoUrl: '/athletes/matheus-oliveira.jpg',
     instagramUrl: 'https://www.instagram.com/matheusoliveira/',
   },
   {
@@ -71,7 +71,7 @@ export const ATHLETES_DATA: Athlete[] = [
     name: 'Pedro Henrique',
     position: 'Atacante',
     club: 'Red Bull Bragantino',
-    photoUrl: 'https://placehold.co/400x500.webp?text=Pedro+Henrique',
+    photoUrl: '/athletes/pedro-henrique.jpg',
     instagramUrl: 'https://www.instagram.com/pedrohenrique/',
   },
   {
@@ -79,7 +79,7 @@ export const ATHLETES_DATA: Athlete[] = [
     name: 'Bruno Fernandes',
     position: 'Atacante',
     club: 'Goiás',
-    photoUrl: 'https://placehold.co/400x500.webp?text=Bruno+Fernandes',
+    photoUrl: '/athletes/bruno-fernandes.jpg',
     instagramUrl: 'https://www.instagram.com/brunofernandes/',
   },
 ]

@@ -13,7 +13,11 @@ export function PositionFilter({ value, onChange }: PositionFilterProps) {
   const options: PositionFilterValue[] = [ALL_POSITIONS, ...POSITIONS]
 
   return (
-    <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar atletas por posição">
+    <div
+      className="inline-flex flex-wrap border-2 border-ink-900"
+      role="group"
+      aria-label="Filtrar atletas por posição"
+    >
       {options.map((option) => {
         const isActive = option === value
         return (
@@ -23,10 +27,8 @@ export function PositionFilter({ value, onChange }: PositionFilterProps) {
             aria-pressed={isActive}
             onClick={() => onChange(option)}
             className={clsx(
-              'rounded-full border px-4 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2',
-              isActive
-                ? 'border-brand-500 bg-brand-500 text-white'
-                : 'border-ink-100 bg-white text-ink-600 hover:border-brand-200 hover:text-brand-600',
+              'border-r-2 border-ink-900 px-4 py-3 text-xs font-extrabold uppercase tracking-widest transition-colors last:border-r-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2',
+              isActive ? 'bg-brand-500 text-white' : 'bg-transparent text-ink-900 hover:bg-ink-100',
             )}
           >
             {option}

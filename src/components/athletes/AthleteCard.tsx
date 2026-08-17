@@ -1,4 +1,5 @@
 import type { Athlete } from '@/data/athletes'
+import { useMagnetic } from '@/hooks/useMagnetic'
 
 function InstagramIcon() {
   return (
@@ -25,32 +26,51 @@ interface AthleteCardProps {
 }
 
 export function AthleteCard({ athlete }: AthleteCardProps) {
+  const { ref, style, onMouseMove, onMouseLeave } = useMagnetic<HTMLElement>(0.05)
+
   return (
-    <article className="overflow-hidden rounded-xl border border-ink-100 bg-white shadow-sm">
-      <img
-        src={athlete.photoUrl}
-        alt={`Foto de ${athlete.name}`}
-        loading="lazy"
-        decoding="async"
-        width={400}
-        height={500}
-        className="aspect-[4/5] w-full object-cover"
-      />
-      <div className="p-4">
-        <h3 className="text-base font-semibold text-ink-900">{athlete.name}</h3>
+    <article
+      ref={ref}
+      style={style}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      className="group relative overflow-hidden border-2 border-ink-900 bg-white transition-transform duration-300 ease-out"
+    >
+      <div className="relative aspect-4/5 overflow-hidden bg-ink-100">
+        <img
+          src={athlete.photoUrl}
+          alt={`Foto de ${athlete.name}`}
+          loading="lazy"
+          decoding="async"
+          width={400}
+          height={500}
+          className="h-full w-full object-cover grayscale contrast-125 transition-all duration-500 ease-out group-hover:scale-105 group-hover:grayscale-0"
+        />
+
+        <span className="absolute top-3 left-3 bg-brand-500 px-3 py-1 text-[11px] font-extrabold uppercase tracking-widest text-white">
+          {athlete.position}
+        </span>
+
+        <div className="absolute inset-0 flex flex-col items-start justify-end gap-3 bg-ink-900/85 p-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <p className="text-[11px] uppercase tracking-widest text-brand-300">{athlete.club}</p>
+          <a
+            href={athlete.instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Instagram de ${athlete.name}`}
+            className="inline-flex items-center gap-2 bg-brand-500 px-4 py-2 text-xs font-extrabold uppercase tracking-widest text-white transition-colors hover:bg-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          >
+            <InstagramIcon />
+            Instagram
+          </a>
+        </div>
+      </div>
+
+      <div className="border-t-2 border-ink-900 p-4">
+        <h3 className="text-base font-extrabold tracking-tight text-ink-900">{athlete.name}</h3>
         <p className="text-sm text-ink-600">
           {athlete.position} &middot; {athlete.club}
         </p>
-        <a
-          href={athlete.instagramUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Instagram de ${athlete.name}`}
-          className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-brand-600 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 rounded-sm"
-        >
-          <InstagramIcon />
-          Instagram
-        </a>
       </div>
     </article>
   )

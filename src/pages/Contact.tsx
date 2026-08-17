@@ -10,18 +10,22 @@ export function Contact() {
   return (
     <>
       <Seo title={meta.title} description={meta.description} path={meta.path} image={meta.ogImage} />
-      <Container className="py-16">
-        <SectionHeading
-          as="h1"
-          eyebrow="Contato"
-          title="Fale com a Urbini Sports"
-          description="Tem interesse em gestão de carreira, parcerias ou representação de atletas? Envie sua mensagem."
-        />
 
-        <div className="mt-10 max-w-xl">
-          <ContactForm />
-        </div>
-      </Container>
+      <section className="bg-ink-900 py-24">
+        <Container>
+          <SectionHeading
+            as="h1"
+            tone="dark"
+            eyebrow="Canal Direto"
+            title="Entre em Contato"
+            description="Agentes, clubes e marcas — envie sua mensagem diretamente para a equipe Urbini."
+          />
+
+          <div className="mt-14 max-w-2xl">
+            <ContactForm />
+          </div>
+        </Container>
+      </section>
     </>
   )
 }
