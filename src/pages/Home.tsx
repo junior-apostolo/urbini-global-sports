@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef } from 'react'
-import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { Seo } from '@/components/seo/Seo'
 import { Container } from '@/components/ui/Container'
@@ -7,10 +6,13 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Reveal } from '@/components/ui/Reveal'
 import { WipeReveal } from '@/components/ui/WipeReveal'
 import { LinkButton } from '@/components/ui/Button'
+import { LocaleLink } from '@/components/layout/LocaleLink'
 import { HoverSwapText } from '@/components/ui/HoverSwapText'
 import { AthleteCarousel } from '@/components/athletes/AthleteCarousel'
+import { MarketConnection } from '@/components/home/MarketConnection'
 import { ATHLETES_DATA } from '@/data/athletes'
-import { ROUTES_META } from '@/lib/seo/routesMeta'
+import { getRouteMeta } from '@/lib/seo/routesMeta'
+import { useLocale, useT } from '@/lib/i18n/LocaleContext'
 import { useMagnetic } from '@/hooks/useMagnetic'
 import { useCountUp } from '@/hooks/useCountUp'
 import { useReveal } from '@/hooks/useReveal'
@@ -20,26 +22,6 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 const HERO_POSTER = 'https://placehold.co/1600x1000.webp?text=Urbini+Sports'
 
 const FEATURED_ATHLETES = ATHLETES_DATA.slice(0, 4)
-
-const TESTIMONIALS = [
-  {
-    quote:
-      'A Urbini conduziu a transferência do nosso atleta com transparência total, do primeiro contato ao fechamento.',
-    name: 'Diretor Desportivo',
-    role: 'Clube parceiro',
-  },
-  {
-    quote:
-      'Profissionalismo raro no mercado. Cada decisão de carreira foi pensada a médio e longo prazo.',
-    name: 'Agente associado',
-    role: 'Rede de olheiros',
-  },
-  {
-    quote: 'Acompanhamento próximo, dentro e fora de campo. Nossos atletas evoluíram com consistência.',
-    name: 'Responsável técnico',
-    role: 'Comissão técnica',
-  },
-]
 
 interface StatCounterProps {
   label: string
@@ -63,7 +45,9 @@ function StatCounter({ label, value, suffix = '', active }: StatCounterProps) {
 }
 
 export function Home() {
-  const meta = ROUTES_META.home
+  const { locale } = useLocale()
+  const t = useT()
+  const meta = getRouteMeta(locale, 'home')
   const { ref: ctaRef, style: ctaStyle, onMouseMove: onCtaMouseMove, onMouseLeave: onCtaMouseLeave } =
     useMagnetic<HTMLAnchorElement>()
   const { ref: statsRef, visible: statsVisible } = useReveal<HTMLDivElement>(0.4)
@@ -92,12 +76,12 @@ export function Home() {
   const stats = useMemo(() => {
     const clubs = new Set(ATHLETES_DATA.map((athlete) => athlete.club))
     return [
-      { label: 'Atletas agenciados', value: ATHLETES_DATA.length },
-      { label: 'Clubes parceiros', value: clubs.size },
-      { label: 'Anos de atuação', value: 8 },
-      { label: 'Dedicação', value: 100, suffix: '%' },
+      { label: t.home.statAthletes, value: ATHLETES_DATA.length },
+      { label: t.home.statClubs, value: clubs.size },
+      { label: t.home.statYears, value: 8 },
+      { label: t.home.statDedication, value: 100, suffix: '%' },
     ]
-  }, [])
+  }, [t])
 
   const clubs = useMemo(
     () => Array.from(new Set(ATHLETES_DATA.map((athlete) => athlete.club))),
@@ -114,10 +98,17 @@ export function Home() {
 
   return (
     <>
-      <Seo title={meta.title} description={meta.description} path={meta.path} image={meta.ogImage} jsonLd={jsonLd} />
+      <Seo
+        title={meta.title}
+        description={meta.description}
+        path={meta.path}
+        locale={locale}
+        image={meta.ogImage}
+        jsonLd={jsonLd}
+      />
 
       {/* HERO */}
-      <section className="relative -mt-20 min-h-screen overflow-hidden bg-ink-900">
+      <section className="relative -mt-32 min-h-[92vh] overflow-hidden bg-ink-900">
         <div className="absolute inset-0">
           {prefersReducedMotion ? (
             <img
@@ -144,44 +135,47 @@ export function Home() {
               <source src="/videos/hero-football.mp4" type="video/mp4" />
             </video>
           )}
-          <div className="absolute inset-0 bg-linear-to-b from-ink-900/55 via-ink-900/75 to-ink-900" />
+          <div className="absolute inset-0 bg-linear-to-b from-ink-900/60 via-ink-900/35 to-ink-900/85" />
         </div>
 
-        <Container className="relative flex min-h-screen flex-col justify-end pt-40 pb-20">
-          <div data-reveal="true" className="mb-6 flex items-center gap-2">
-            <span className="inline-block h-2.5 w-2.5 bg-brand-500" aria-hidden="true" />
-            <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-brand-500">
-              Gestão de Carreiras &amp; Performance
+        <Container className="relative flex min-h-[92vh] flex-col items-center justify-center pt-28 pb-28 text-center">
+          <div
+            data-reveal="true"
+            className="mb-6 flex items-center justify-center gap-2 drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]"
+          >
+            <span className="inline-block h-2 w-2 bg-brand-400" aria-hidden="true" />
+            <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-brand-400">
+              {t.home.heroEyebrow}
             </span>
           </div>
 
-          <h1 className="max-w-5xl text-[clamp(2.75rem,9vw,7.25rem)] font-extrabold uppercase leading-[0.92] tracking-tight text-white">
+          <h1 className="max-w-3xl text-[clamp(1.75rem,4.5vw,3.5rem)] font-extrabold leading-[1.1] tracking-tight text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.6)]">
             <WipeReveal as="span" className="block" delay={0}>
-              Gestão de
+              {t.home.heroHeadlineLine1}
             </WipeReveal>
             <WipeReveal as="span" className="block" delay={140}>
-              Carreiras no
-            </WipeReveal>
-            <WipeReveal as="span" className="block text-brand-500" delay={280}>
-              Futebol
+              {t.home.heroHeadlineLine2}
             </WipeReveal>
           </h1>
 
-          <div className="mt-10 flex flex-wrap items-center gap-6">
-            <Link
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <LocaleLink
               ref={ctaRef}
-              to="/atletas"
+              to="/contato"
               onMouseMove={onCtaMouseMove}
               onMouseLeave={onCtaMouseLeave}
               style={ctaStyle}
-              className="group inline-flex items-center gap-3 bg-brand-500 px-9 py-5 text-sm font-extrabold uppercase tracking-widest text-white transition-colors duration-150 hover:bg-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900"
+              className="group inline-flex items-center gap-3 bg-brand-500 px-8 py-4 text-sm font-extrabold uppercase tracking-widest text-white transition-colors duration-150 hover:bg-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900"
             >
-              <HoverSwapText>Conheça nossos atletas</HoverSwapText>
+              <HoverSwapText>{t.home.heroCtaPrimary}</HoverSwapText>
               <ArrowRight aria-hidden="true" size={18} />
-            </Link>
-            <span className="text-xs uppercase tracking-widest text-ink-400">
-              Portfólio nacional &mdash; times de todo o Brasil
-            </span>
+            </LocaleLink>
+            <LocaleLink
+              to="/atletas"
+              className="inline-flex items-center gap-3 border-2 border-white/70 px-8 py-4 text-sm font-extrabold uppercase tracking-widest text-white transition-colors duration-150 hover:border-white hover:bg-white hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900"
+            >
+              <HoverSwapText>{t.home.heroCtaSecondary}</HoverSwapText>
+            </LocaleLink>
           </div>
         </Container>
       </section>
@@ -190,17 +184,14 @@ export function Home() {
       <section ref={manifestoThemeRef}>
         <Container className="py-28 sm:py-32">
           <Reveal as="h6" className="mb-6 text-xs font-extrabold uppercase tracking-[0.2em] text-brand-500">
-            Manifesto
+            {t.home.manifestoEyebrow}
           </Reveal>
           <WipeReveal
             as="p"
             delay={100}
             className="block max-w-4xl text-[clamp(1.5rem,3.5vw,2.75rem)] font-extrabold leading-[1.15] tracking-tight text-ink-900"
           >
-            Não gerimos contratos. Construímos carreiras. Cada atleta que representamos chega até
-            nós com talento &mdash; nosso trabalho é transformar esse talento em trajetória:
-            negociações justas, visibilidade e decisões que respeitam o tempo de cada jogador
-            dentro e fora de campo.
+            {t.home.manifestoText}
           </WipeReveal>
 
           <div className="my-16 h-0.5 bg-ink-100" aria-hidden="true" />
@@ -213,13 +204,16 @@ export function Home() {
         </Container>
       </section>
 
+      {/* MARKET CONNECTION */}
+      <MarketConnection />
+
       {/* ATHLETES */}
       <section ref={athletesThemeRef} className="border-y-2 border-ink-900">
         <Container className="pt-28 pb-14">
           <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeading eyebrow="Portfólio" title="Atletas em destaque" />
+            <SectionHeading eyebrow={t.home.portfolioEyebrow} title={t.home.portfolioTitle} />
             <LinkButton to="/atletas" variant="secondary">
-              Ver todos
+              {t.home.viewAll}
             </LinkButton>
           </div>
         </Container>
@@ -231,10 +225,10 @@ export function Home() {
       {/* CONFIANÇA */}
       <section ref={confiancaThemeRef}>
         <Container className="py-28">
-          <SectionHeading eyebrow="Confiança" title="O que dizem sobre nós" serif />
+          <SectionHeading eyebrow={t.home.trustEyebrow} title={t.home.trustTitle} serif />
 
           <div className="mt-14 grid grid-cols-1 border-t-2 border-l-2 border-ink-100 sm:grid-cols-3">
-            {TESTIMONIALS.map((testimonial) => (
+            {t.home.testimonials.map((testimonial) => (
               <div
                 key={testimonial.name}
                 className="flex min-h-55 flex-col justify-between gap-6 border-r-2 border-b-2 border-ink-100 p-8"
@@ -251,9 +245,7 @@ export function Home() {
           </div>
 
           <div className="mt-14">
-            <p className="text-xs font-bold uppercase tracking-widest text-ink-600">
-              Clubes representados por nossos atletas
-            </p>
+            <p className="text-xs font-bold uppercase tracking-widest text-ink-600">{t.home.clubsLabel}</p>
             <div className="mt-5 flex flex-wrap gap-3">
               {clubs.map((club) => (
                 <span
@@ -276,7 +268,7 @@ export function Home() {
             panelClassName="bg-ink-900"
             className="block max-w-3xl text-[clamp(1.75rem,4vw,3rem)] font-extrabold uppercase leading-[1.05] tracking-tight text-ink-900"
           >
-            Não vendemos passes. Construímos legados dentro e fora de campo.
+            {t.home.impactText}
           </WipeReveal>
         </Container>
 
@@ -299,12 +291,10 @@ export function Home() {
       <section className="border-t-2 border-brand-500 bg-ink-900">
         <Container className="flex flex-col items-center gap-6 py-28 text-center">
           <h2 className="max-w-2xl text-[clamp(1.75rem,4.5vw,3rem)] font-extrabold uppercase leading-tight tracking-tight text-white">
-            Pronto para dar o próximo passo na sua carreira?
+            {t.home.ctaHeading}
           </h2>
-          <p className="max-w-xl text-ink-300">
-            Entre em contato com a nossa equipe e descubra como a Urbini Global Sports pode ajudar você.
-          </p>
-          <LinkButton to="/contato">Fale conosco</LinkButton>
+          <p className="max-w-xl text-ink-300">{t.home.ctaText}</p>
+          <LinkButton to="/contato">{t.home.ctaButton}</LinkButton>
         </Container>
       </section>
     </>

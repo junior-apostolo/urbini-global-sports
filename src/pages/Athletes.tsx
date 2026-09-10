@@ -5,17 +5,20 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { AthleteGrid } from '@/components/athletes/AthleteGrid'
 import { PositionFilter, ALL_POSITIONS, type PositionFilterValue } from '@/components/athletes/PositionFilter'
 import { ATHLETES_DATA } from '@/data/athletes'
-import { ROUTES_META } from '@/lib/seo/routesMeta'
+import { getRouteMeta } from '@/lib/seo/routesMeta'
+import { useLocale, useT } from '@/lib/i18n/LocaleContext'
 
 export function Athletes() {
   const [filter, setFilter] = useState<PositionFilterValue>(ALL_POSITIONS)
+  const { locale } = useLocale()
+  const t = useT()
 
   const filteredAthletes = useMemo(() => {
     if (filter === ALL_POSITIONS) return ATHLETES_DATA
     return ATHLETES_DATA.filter((athlete) => athlete.position === filter)
   }, [filter])
 
-  const meta = ROUTES_META.athletes
+  const meta = getRouteMeta(locale, 'athletes')
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -26,7 +29,7 @@ export function Athletes() {
       item: {
         '@type': 'Person',
         name: athlete.name,
-        jobTitle: athlete.position,
+        jobTitle: t.positions[athlete.position],
         affiliation: athlete.club,
         sameAs: [athlete.instagramUrl],
       },
@@ -35,15 +38,22 @@ export function Athletes() {
 
   return (
     <>
-      <Seo title={meta.title} description={meta.description} path={meta.path} image={meta.ogImage} jsonLd={jsonLd} />
+      <Seo
+        title={meta.title}
+        description={meta.description}
+        path={meta.path}
+        locale={locale}
+        image={meta.ogImage}
+        jsonLd={jsonLd}
+      />
 
       <section className="border-b-2 border-ink-900 bg-ink-50">
         <Container className="py-24">
           <SectionHeading
             as="h1"
-            eyebrow="Portfólio"
-            title="Atletas agenciados"
-            description="Conheça os atletas representados pela Urbini Global Sports, filtrando por posição em campo."
+            eyebrow={t.athletes.heroEyebrow}
+            title={t.athletes.heroTitle}
+            description={t.athletes.heroDescription}
           />
         </Container>
       </section>

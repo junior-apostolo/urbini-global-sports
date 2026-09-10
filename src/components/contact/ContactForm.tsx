@@ -1,10 +1,12 @@
 import { useContactForm } from '@/hooks/useContactForm'
 import { Button } from '@/components/ui/Button'
+import { useT } from '@/lib/i18n/LocaleContext'
 
 const FIELD_CLASSES =
   'mt-2 block w-full border-0 border-b-2 border-ink-600 bg-transparent px-0 py-2.5 text-lg text-white placeholder:text-ink-400 focus:border-brand-500 focus:outline-none'
 
 export function ContactForm() {
+  const t = useT()
   const { form, onSubmit, submitStatus } = useContactForm()
   const {
     register,
@@ -15,7 +17,7 @@ export function ContactForm() {
     <form onSubmit={onSubmit} noValidate className="space-y-8">
       <div>
         <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-ink-400">
-          Nome completo
+          {t.contactForm.nameLabel}
         </label>
         <input
           id="name"
@@ -35,7 +37,7 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="email" className="text-xs font-bold uppercase tracking-widest text-ink-400">
-          E-mail
+          {t.contactForm.emailLabel}
         </label>
         <input
           id="email"
@@ -55,7 +57,7 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="message" className="text-xs font-bold uppercase tracking-widest text-ink-400">
-          Mensagem
+          {t.contactForm.messageLabel}
         </label>
         <textarea
           id="message"
@@ -74,23 +76,21 @@ export function ContactForm() {
 
       {/* Honeypot: mantido fora da visão e do fluxo de tab; bots costumam preenchê-lo */}
       <div className="hidden" aria-hidden="true">
-        <label htmlFor="company">Empresa</label>
+        <label htmlFor="company">{t.contactForm.companyLabel}</label>
         <input id="company" type="text" tabIndex={-1} autoComplete="off" {...register('company')} />
       </div>
 
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
+        {isSubmitting ? t.contactForm.submitting : t.contactForm.submit}
       </Button>
 
       <div aria-live="polite" className="text-sm">
         {submitStatus === 'success' && (
           <p className="border-2 border-brand-500 px-5 py-4 font-extrabold uppercase tracking-wide text-white">
-            Mensagem enviada com sucesso! Em breve entraremos em contato.
+            {t.contactForm.success}
           </p>
         )}
-        {submitStatus === 'error' && (
-          <p className="text-brand-300">Não foi possível enviar sua mensagem. Tente novamente.</p>
-        )}
+        {submitStatus === 'error' && <p className="text-brand-300">{t.contactForm.error}</p>}
       </div>
     </form>
   )

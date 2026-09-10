@@ -1,5 +1,6 @@
 import { clsx } from 'clsx'
 import { POSITIONS, type Position } from '@/data/athletes'
+import { useT } from '@/lib/i18n/LocaleContext'
 
 export const ALL_POSITIONS = 'Todos' as const
 export type PositionFilterValue = Position | typeof ALL_POSITIONS
@@ -10,16 +11,18 @@ interface PositionFilterProps {
 }
 
 export function PositionFilter({ value, onChange }: PositionFilterProps) {
+  const t = useT()
   const options: PositionFilterValue[] = [ALL_POSITIONS, ...POSITIONS]
 
   return (
     <div
       className="inline-flex flex-wrap border-2 border-ink-900"
       role="group"
-      aria-label="Filtrar atletas por posição"
+      aria-label={t.athletes.filterAria}
     >
       {options.map((option) => {
         const isActive = option === value
+        const label = option === ALL_POSITIONS ? t.athletes.allPositions : t.positions[option]
         return (
           <button
             key={option}
@@ -31,7 +34,7 @@ export function PositionFilter({ value, onChange }: PositionFilterProps) {
               isActive ? 'bg-brand-500 text-white' : 'bg-transparent text-ink-900 hover:bg-ink-100',
             )}
           >
-            {option}
+            {label}
           </button>
         )
       })}

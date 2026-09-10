@@ -1,7 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ContactForm } from '@/components/contact/ContactForm'
+import { renderWithProviders } from './testUtils'
 
 afterEach(() => {
   vi.unstubAllGlobals()
@@ -10,7 +11,7 @@ afterEach(() => {
 describe('ContactForm', () => {
   it('mostra erros para os campos obrigatórios ao submeter vazio', async () => {
     const user = userEvent.setup()
-    render(<ContactForm />)
+    renderWithProviders(<ContactForm />)
 
     await user.click(screen.getByRole('button', { name: /enviar mensagem/i }))
 
@@ -24,7 +25,7 @@ describe('ContactForm', () => {
     vi.stubGlobal('fetch', fetchMock)
 
     const user = userEvent.setup()
-    render(<ContactForm />)
+    renderWithProviders(<ContactForm />)
 
     await user.type(screen.getByLabelText(/nome completo/i), 'Maria Souza')
     await user.type(screen.getByLabelText(/e-mail/i), 'maria@example.com')
@@ -44,7 +45,7 @@ describe('ContactForm', () => {
     vi.stubGlobal('fetch', fetchMock)
 
     const user = userEvent.setup()
-    render(<ContactForm />)
+    renderWithProviders(<ContactForm />)
 
     await user.type(screen.getByLabelText(/nome completo/i), 'Maria Souza')
     await user.type(screen.getByLabelText(/e-mail/i), 'maria@example.com')

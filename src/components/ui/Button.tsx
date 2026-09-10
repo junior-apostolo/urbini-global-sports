@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
-import { Link, type LinkProps } from 'react-router-dom'
+import { type LinkProps } from 'react-router-dom'
 import { clsx } from 'clsx'
+import { LocaleLink } from '@/components/layout/LocaleLink'
 import { HoverSwapText } from './HoverSwapText'
 
 type Variant = 'primary' | 'secondary' | 'ghost'
@@ -38,8 +39,8 @@ interface LinkButtonProps extends LinkProps {
 
 export function LinkButton({ variant = 'primary', className, children, ...props }: LinkButtonProps) {
   return (
-    <Link className={clsx(BASE_CLASSES, VARIANT_CLASSES[variant], className)} {...props}>
+    <LocaleLink className={clsx(BASE_CLASSES, VARIANT_CLASSES[variant], className)} {...props}>
       {renderLabel(children)}
-    </Link>
+    </LocaleLink>
   )
 }

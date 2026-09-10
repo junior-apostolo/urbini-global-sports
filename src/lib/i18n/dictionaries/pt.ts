@@ -1,0 +1,155 @@
+import type { Position } from '../../../data/athletes'
+
+export const pt = {
+  header: {
+    navHome: 'Início',
+    navAbout: 'Sobre',
+    navAthletes: 'Atletas',
+    contactCta: 'Entre em contato',
+    ariaNav: 'Navegação principal',
+    ariaOpenMenu: 'Abrir menu',
+    ariaCloseMenu: 'Fechar menu',
+    mobileContact: 'Contato',
+    languageAria: 'Selecionar idioma',
+  },
+  footer: {
+    tagline: 'Urbini Global Sports — Gestão de carreiras no futebol.',
+    navAbout: 'Sobre',
+    navAthletes: 'Atletas',
+    navContact: 'Contato',
+    ariaFooter: 'Rodapé',
+    copyright: (year: number) => `© ${year} Urbini Global Sports. Todos os direitos reservados.`,
+  },
+  home: {
+    heroEyebrow: 'Gestão de carreiras e conexão entre clubes',
+    heroHeadlineLine1: 'Estratégia para carreiras,',
+    heroHeadlineLine2: 'Conexões para o futebol.',
+    heroCtaPrimary: 'Fale com a UGS',
+    heroCtaSecondary: 'Conheça nossos atletas',
+    manifestoEyebrow: 'Manifesto',
+    manifestoText:
+      'Não gerimos contratos. Construímos carreiras. Cada atleta que representamos chega até nós com talento — nosso trabalho é transformar esse talento em trajetória: negociações justas, visibilidade e decisões que respeitam o tempo de cada jogador dentro e fora de campo.',
+    statAthletes: 'Atletas agenciados',
+    statClubs: 'Clubes parceiros',
+    statYears: 'Anos de atuação',
+    statDedication: 'Dedicação',
+    portfolioEyebrow: 'Portfólio',
+    portfolioTitle: 'Atletas em destaque',
+    viewAll: 'Ver todos',
+    trustEyebrow: 'Confiança',
+    trustTitle: 'O que dizem sobre nós',
+    testimonials: [
+      {
+        quote:
+          'A Urbini conduziu a transferência do nosso atleta com transparência total, do primeiro contato ao fechamento.',
+        name: 'Diretor Desportivo',
+        role: 'Clube parceiro',
+      },
+      {
+        quote:
+          'Profissionalismo raro no mercado. Cada decisão de carreira foi pensada a médio e longo prazo.',
+        name: 'Agente associado',
+        role: 'Rede de olheiros',
+      },
+      {
+        quote: 'Acompanhamento próximo, dentro e fora de campo. Nossos atletas evoluíram com consistência.',
+        name: 'Responsável técnico',
+        role: 'Comissão técnica',
+      },
+    ],
+    clubsLabel: 'Clubes representados por nossos atletas',
+    impactText: 'Não vendemos passes. Construímos legados dentro e fora de campo.',
+    ctaHeading: 'Pronto para dar o próximo passo na sua carreira?',
+    ctaText: 'Entre em contato com a nossa equipe e descubra como a Urbini Global Sports pode ajudar você.',
+    ctaButton: 'Fale conosco',
+  },
+  marketConnection: {
+    leftHeading: ['Conexão', 'direta com o', 'mercado'],
+    leftText:
+      'Clubes não precisam de mais um catálogo de jogadores. Precisam de alguém que entenda a demanda e responda com o perfil certo, rápido e com informação confiável. É esse o papel da UGS: uma rede de relacionamento construída para transformar uma necessidade específica em uma solução real de mercado.',
+    rightHeading: ['Atuação', 'como elo', 'entre clubes'],
+    cardScouting: 'Scouting',
+    cardIdentification: 'Identificação\nde perfis',
+    cardMarket: 'Conexão com\nmercado',
+    cardSupport: 'Suporte em\nnegociações',
+    nextAria: 'Próximo item',
+  },
+  about: {
+    heroEyebrow: 'Sobre nós',
+    heroTitle: 'Gestão de carreiras com propósito',
+    heroDescription:
+      'A Urbini Global Sports nasceu para acompanhar atletas de futebol em cada etapa da carreira, unindo estratégia esportiva, cuidado pessoal e uma rede de relacionamento sólida no futebol brasileiro.',
+    missionTitle: 'Nossa missão',
+    missionText:
+      'Potencializar o talento de cada atleta agenciado, oferecendo suporte completo para que possam se dedicar ao que fazem de melhor: jogar futebol.',
+    valuesTitle: 'Nossos valores',
+    values: [
+      {
+        title: 'Transparência',
+        description: 'Comunicação clara em cada etapa da carreira do atleta, sem letras miúdas.',
+      },
+      {
+        title: 'Cuidado integral',
+        description: 'Acompanhamento esportivo, jurídico e pessoal, dentro e fora de campo.',
+      },
+      {
+        title: 'Rede de relacionamento',
+        description: 'Conexões construídas com clubes, olheiros e agentes em todo o país.',
+      },
+    ],
+    differentialsTitle: 'Diferenciais',
+    differentials: [
+      'Planejamento de carreira personalizado para cada atleta',
+      'Suporte em negociações contratuais e imagem',
+      'Acompanhamento próximo de desempenho e evolução técnica',
+    ],
+  },
+  athletes: {
+    heroEyebrow: 'Portfólio',
+    heroTitle: 'Atletas agenciados',
+    heroDescription: 'Conheça os atletas representados pela Urbini Global Sports, filtrando por posição em campo.',
+    filterAria: 'Filtrar atletas por posição',
+    allPositions: 'Todos',
+    emptyMessage: 'Nenhum atleta encontrado para esse filtro.',
+    photoAlt: (name: string) => `Foto de ${name}`,
+    instagramAria: (name: string) => `Instagram de ${name}`,
+  },
+  positions: {
+    Goleiro: 'Goleiro',
+    Zagueiro: 'Zagueiro',
+    Lateral: 'Lateral',
+    'Meio-campo': 'Meio-campo',
+    Atacante: 'Atacante',
+  } satisfies Record<Position, string>,
+  contact: {
+    heroEyebrow: 'Canal Direto',
+    heroTitle: 'Entre em Contato',
+    heroDescription: 'Agentes, clubes e marcas — envie sua mensagem diretamente para a equipe Urbini.',
+  },
+  contactForm: {
+    nameLabel: 'Nome completo',
+    emailLabel: 'E-mail',
+    messageLabel: 'Mensagem',
+    companyLabel: 'Empresa',
+    submitting: 'Enviando...',
+    submit: 'Enviar mensagem',
+    success: 'Mensagem enviada com sucesso! Em breve entraremos em contato.',
+    error: 'Não foi possível enviar sua mensagem. Tente novamente.',
+  },
+  notFound: {
+    seoTitle: 'Página não encontrada — Urbini Global Sports',
+    seoDescription: 'A página que você procura não existe ou foi movida.',
+    errorLabel: 'Erro 404',
+    title: 'Página não encontrada',
+    text: 'A página que você procura não existe ou foi movida.',
+    button: 'Voltar para o início',
+  },
+  validation: {
+    nameRequired: 'Digite seu nome completo.',
+    nameTooLong: 'Nome muito longo.',
+    emailRequired: 'Digite seu e-mail.',
+    emailInvalid: 'Digite um e-mail válido.',
+    messageTooShort: 'Sua mensagem deve ter pelo menos 10 caracteres.',
+    messageTooLong: 'Mensagem muito longa.',
+  },
+}

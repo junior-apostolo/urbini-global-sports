@@ -1,5 +1,6 @@
 import type { Athlete } from '@/data/athletes'
 import { useMagnetic } from '@/hooks/useMagnetic'
+import { useT } from '@/lib/i18n/LocaleContext'
 
 function InstagramIcon() {
   return (
@@ -27,6 +28,8 @@ interface AthleteCardProps {
 
 export function AthleteCard({ athlete }: AthleteCardProps) {
   const { ref, style, onMouseMove, onMouseLeave } = useMagnetic<HTMLElement>(0.05)
+  const t = useT()
+  const position = t.positions[athlete.position]
 
   return (
     <article
@@ -39,7 +42,7 @@ export function AthleteCard({ athlete }: AthleteCardProps) {
       <div className="relative aspect-4/5 overflow-hidden bg-ink-100">
         <img
           src={athlete.photoUrl}
-          alt={`Foto de ${athlete.name}`}
+          alt={t.athletes.photoAlt(athlete.name)}
           loading="lazy"
           decoding="async"
           width={400}
@@ -48,7 +51,7 @@ export function AthleteCard({ athlete }: AthleteCardProps) {
         />
 
         <span className="absolute top-3 left-3 bg-brand-500 px-3 py-1 text-[11px] font-extrabold uppercase tracking-widest text-white">
-          {athlete.position}
+          {position}
         </span>
 
         <div className="absolute inset-0 flex flex-col items-start justify-end gap-3 bg-ink-900/85 p-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -57,7 +60,7 @@ export function AthleteCard({ athlete }: AthleteCardProps) {
             href={athlete.instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`Instagram de ${athlete.name}`}
+            aria-label={t.athletes.instagramAria(athlete.name)}
             className="inline-flex items-center gap-2 bg-brand-500 px-4 py-2 text-xs font-extrabold uppercase tracking-widest text-white transition-colors hover:bg-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
             <InstagramIcon />
@@ -69,7 +72,7 @@ export function AthleteCard({ athlete }: AthleteCardProps) {
       <div className="border-t-2 border-ink-900 p-4">
         <h3 className="text-base font-extrabold tracking-tight text-ink-900">{athlete.name}</h3>
         <p className="text-sm text-ink-600">
-          {athlete.position} &middot; {athlete.club}
+          {position} &middot; {athlete.club}
         </p>
       </div>
     </article>

@@ -1,0 +1,155 @@
+import type { Dictionary } from './types'
+
+export const en: Dictionary = {
+  header: {
+    navHome: 'Home',
+    navAbout: 'About',
+    navAthletes: 'Athletes',
+    contactCta: 'Get in touch',
+    ariaNav: 'Main navigation',
+    ariaOpenMenu: 'Open menu',
+    ariaCloseMenu: 'Close menu',
+    mobileContact: 'Contact',
+    languageAria: 'Select language',
+  },
+  footer: {
+    tagline: 'Urbini Global Sports — Football career management.',
+    navAbout: 'About',
+    navAthletes: 'Athletes',
+    navContact: 'Contact',
+    ariaFooter: 'Footer',
+    copyright: (year) => `© ${year} Urbini Global Sports. All rights reserved.`,
+  },
+  home: {
+    heroEyebrow: 'Career management and club connections',
+    heroHeadlineLine1: 'Strategy for careers,',
+    heroHeadlineLine2: 'Connections for football.',
+    heroCtaPrimary: 'Talk to UGS',
+    heroCtaSecondary: 'Meet our athletes',
+    manifestoEyebrow: 'Manifesto',
+    manifestoText:
+      "We don't manage contracts. We build careers. Every athlete we represent comes to us with talent — our job is to turn that talent into a trajectory: fair negotiations, visibility, and decisions that respect each player's time, on and off the pitch.",
+    statAthletes: 'Athletes represented',
+    statClubs: 'Partner clubs',
+    statYears: 'Years of operation',
+    statDedication: 'Dedication',
+    portfolioEyebrow: 'Portfolio',
+    portfolioTitle: 'Featured athletes',
+    viewAll: 'View all',
+    trustEyebrow: 'Trust',
+    trustTitle: 'What people say about us',
+    testimonials: [
+      {
+        quote:
+          "Urbini handled our athlete's transfer with complete transparency, from first contact to closing.",
+        name: 'Sporting Director',
+        role: 'Partner club',
+      },
+      {
+        quote:
+          'Rare professionalism in this market. Every career decision was made with the medium and long term in mind.',
+        name: 'Associated agent',
+        role: 'Scouting network',
+      },
+      {
+        quote: 'Close support, on and off the pitch. Our athletes have developed with consistency.',
+        name: 'Technical director',
+        role: 'Coaching staff',
+      },
+    ],
+    clubsLabel: 'Clubs represented by our athletes',
+    impactText: "We don't sell transfers. We build legacies on and off the pitch.",
+    ctaHeading: 'Ready to take the next step in your career?',
+    ctaText: 'Get in touch with our team and discover how Urbini Global Sports can help you.',
+    ctaButton: 'Contact us',
+  },
+  marketConnection: {
+    leftHeading: ['Direct connection', 'with the', 'market'],
+    leftText:
+      "Clubs don't need another catalog of players. They need someone who understands the demand and responds with the right profile, quickly and with reliable information. That's UGS's role: a relationship network built to turn a specific need into a real market solution.",
+    rightHeading: ['Acting as a', 'bridge', 'between clubs'],
+    cardScouting: 'Scouting',
+    cardIdentification: 'Profile\nidentification',
+    cardMarket: 'Market\nconnection',
+    cardSupport: 'Negotiation\nsupport',
+    nextAria: 'Next item',
+  },
+  about: {
+    heroEyebrow: 'About us',
+    heroTitle: 'Career management with purpose',
+    heroDescription:
+      'Urbini Global Sports was created to support football athletes at every stage of their career, combining sporting strategy, personal care, and a solid relationship network in Brazilian football.',
+    missionTitle: 'Our mission',
+    missionText:
+      'To unlock the talent of every athlete we represent, offering complete support so they can focus on what they do best: playing football.',
+    valuesTitle: 'Our values',
+    values: [
+      {
+        title: 'Transparency',
+        description: "Clear communication at every stage of the athlete's career, no fine print.",
+      },
+      {
+        title: 'Full-circle care',
+        description: 'Sporting, legal, and personal support, on and off the pitch.',
+      },
+      {
+        title: 'Relationship network',
+        description: 'Connections built with clubs, scouts, and agents across the country.',
+      },
+    ],
+    differentialsTitle: 'Differentiators',
+    differentials: [
+      'Personalized career planning for every athlete',
+      'Support with contract negotiations and image rights',
+      'Close tracking of performance and technical development',
+    ],
+  },
+  athletes: {
+    heroEyebrow: 'Portfolio',
+    heroTitle: 'Represented athletes',
+    heroDescription: 'Meet the athletes represented by Urbini Global Sports, filtered by position on the pitch.',
+    filterAria: 'Filter athletes by position',
+    allPositions: 'All',
+    emptyMessage: 'No athletes found for this filter.',
+    photoAlt: (name) => `Photo of ${name}`,
+    instagramAria: (name) => `Instagram for ${name}`,
+  },
+  positions: {
+    Goleiro: 'Goalkeeper',
+    Zagueiro: 'Center Back',
+    Lateral: 'Fullback',
+    'Meio-campo': 'Midfielder',
+    Atacante: 'Forward',
+  },
+  contact: {
+    heroEyebrow: 'Direct Channel',
+    heroTitle: 'Get in Touch',
+    heroDescription: 'Agents, clubs, and brands — send your message directly to the Urbini team.',
+  },
+  contactForm: {
+    nameLabel: 'Full name',
+    emailLabel: 'Email',
+    messageLabel: 'Message',
+    companyLabel: 'Company',
+    submitting: 'Sending...',
+    submit: 'Send message',
+    success: "Message sent successfully! We'll be in touch soon.",
+    error: 'We could not send your message. Please try again.',
+  },
+  notFound: {
+    seoTitle: 'Page not found — Urbini Global Sports',
+    seoDescription: 'The page you are looking for does not exist or has been moved.',
+    errorLabel: '404 Error',
+    title: 'Page not found',
+    text: 'The page you are looking for does not exist or has been moved.',
+    button: 'Back to home',
+  },
+  validation: {
+    nameRequired: 'Enter your full name.',
+    nameTooLong: 'Name is too long.',
+    emailRequired: 'Enter your email.',
+    emailInvalid: 'Enter a valid email address.',
+    messageTooShort: 'Your message must be at least 10 characters.',
+    messageTooLong: 'Message is too long.',
+  },
+}

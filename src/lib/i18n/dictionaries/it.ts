@@ -1,0 +1,155 @@
+import type { Dictionary } from './types'
+
+export const it: Dictionary = {
+  header: {
+    navHome: 'Home',
+    navAbout: 'Chi siamo',
+    navAthletes: 'Atleti',
+    contactCta: 'Contattaci',
+    ariaNav: 'Navigazione principale',
+    ariaOpenMenu: 'Apri menu',
+    ariaCloseMenu: 'Chiudi menu',
+    mobileContact: 'Contatti',
+    languageAria: 'Seleziona lingua',
+  },
+  footer: {
+    tagline: 'Urbini Global Sports — Gestione di carriere nel calcio.',
+    navAbout: 'Chi siamo',
+    navAthletes: 'Atleti',
+    navContact: 'Contatti',
+    ariaFooter: 'Piè di pagina',
+    copyright: (year) => `© ${year} Urbini Global Sports. Tutti i diritti riservati.`,
+  },
+  home: {
+    heroEyebrow: 'Gestione di carriere e connessione tra club',
+    heroHeadlineLine1: 'Strategia per le carriere,',
+    heroHeadlineLine2: 'Connessioni per il calcio.',
+    heroCtaPrimary: 'Parla con UGS',
+    heroCtaSecondary: 'Scopri i nostri atleti',
+    manifestoEyebrow: 'Manifesto',
+    manifestoText:
+      "Non gestiamo contratti. Costruiamo carriere. Ogni atleta che rappresentiamo arriva da noi con talento — il nostro lavoro è trasformare quel talento in un percorso: trattative eque, visibilità e decisioni che rispettano i tempi di ogni giocatore, dentro e fuori dal campo.",
+    statAthletes: 'Atleti rappresentati',
+    statClubs: 'Club partner',
+    statYears: 'Anni di attività',
+    statDedication: 'Dedizione',
+    portfolioEyebrow: 'Portfolio',
+    portfolioTitle: 'Atleti in evidenza',
+    viewAll: 'Vedi tutti',
+    trustEyebrow: 'Fiducia',
+    trustTitle: 'Cosa dicono di noi',
+    testimonials: [
+      {
+        quote:
+          'Urbini ha gestito il trasferimento del nostro atleta con totale trasparenza, dal primo contatto fino alla chiusura.',
+        name: 'Direttore sportivo',
+        role: 'Club partner',
+      },
+      {
+        quote:
+          'Professionalità rara nel mercato. Ogni decisione di carriera è stata pensata a medio e lungo termine.',
+        name: 'Agente associato',
+        role: 'Rete di osservatori',
+      },
+      {
+        quote: 'Accompagnamento vicino, dentro e fuori dal campo. I nostri atleti sono cresciuti con costanza.',
+        name: 'Responsabile tecnico',
+        role: 'Staff tecnico',
+      },
+    ],
+    clubsLabel: 'Club rappresentati dai nostri atleti',
+    impactText: 'Non vendiamo cartellini. Costruiamo eredità dentro e fuori dal campo.',
+    ctaHeading: 'Pronto a fare il prossimo passo nella tua carriera?',
+    ctaText: 'Contatta il nostro team e scopri come Urbini Global Sports può aiutarti.',
+    ctaButton: 'Contattaci',
+  },
+  marketConnection: {
+    leftHeading: ['Connessione', 'diretta con il', 'mercato'],
+    leftText:
+      "I club non hanno bisogno di un altro catalogo di giocatori. Hanno bisogno di qualcuno che capisca la domanda e risponda con il profilo giusto, in modo rapido e con informazioni affidabili. È questo il ruolo di UGS: una rete di relazioni costruita per trasformare un'esigenza specifica in una soluzione di mercato reale.",
+    rightHeading: ['Il nostro ruolo', 'di collegamento', 'tra i club'],
+    cardScouting: 'Scouting',
+    cardIdentification: 'Identificazione\ndei profili',
+    cardMarket: 'Connessione\ncon il mercato',
+    cardSupport: 'Supporto nelle\ntrattative',
+    nextAria: 'Elemento successivo',
+  },
+  about: {
+    heroEyebrow: 'Chi siamo',
+    heroTitle: 'Gestione di carriere con uno scopo',
+    heroDescription:
+      'Urbini Global Sports è nata per seguire gli atleti di calcio in ogni fase della carriera, unendo strategia sportiva, cura personale e una solida rete di relazioni nel calcio brasiliano.',
+    missionTitle: 'La nostra missione',
+    missionText:
+      'Valorizzare il talento di ogni atleta rappresentato, offrendo un supporto completo affinché possa dedicarsi a ciò che sa fare meglio: giocare a calcio.',
+    valuesTitle: 'I nostri valori',
+    values: [
+      {
+        title: 'Trasparenza',
+        description: "Comunicazione chiara in ogni fase della carriera dell'atleta, senza clausole nascoste.",
+      },
+      {
+        title: 'Cura a 360 gradi',
+        description: 'Supporto sportivo, legale e personale, dentro e fuori dal campo.',
+      },
+      {
+        title: 'Rete di relazioni',
+        description: 'Connessioni costruite con club, osservatori e agenti in tutto il paese.',
+      },
+    ],
+    differentialsTitle: 'Punti di forza',
+    differentials: [
+      'Piano di carriera personalizzato per ogni atleta',
+      "Supporto nelle trattative contrattuali e nella gestione dell'immagine",
+      'Monitoraggio costante delle prestazioni e della crescita tecnica',
+    ],
+  },
+  athletes: {
+    heroEyebrow: 'Portfolio',
+    heroTitle: 'Atleti rappresentati',
+    heroDescription: 'Scopri gli atleti rappresentati da Urbini Global Sports, filtrando per ruolo in campo.',
+    filterAria: 'Filtra gli atleti per ruolo',
+    allPositions: 'Tutti',
+    emptyMessage: 'Nessun atleta trovato per questo filtro.',
+    photoAlt: (name) => `Foto di ${name}`,
+    instagramAria: (name) => `Instagram di ${name}`,
+  },
+  positions: {
+    Goleiro: 'Portiere',
+    Zagueiro: 'Difensore centrale',
+    Lateral: 'Terzino',
+    'Meio-campo': 'Centrocampista',
+    Atacante: 'Attaccante',
+  },
+  contact: {
+    heroEyebrow: 'Canale diretto',
+    heroTitle: 'Contattaci',
+    heroDescription: 'Agenti, club e brand — invia il tuo messaggio direttamente al team Urbini.',
+  },
+  contactForm: {
+    nameLabel: 'Nome completo',
+    emailLabel: 'E-mail',
+    messageLabel: 'Messaggio',
+    companyLabel: 'Azienda',
+    submitting: 'Invio in corso...',
+    submit: 'Invia messaggio',
+    success: 'Messaggio inviato con successo! Ti contatteremo a breve.',
+    error: 'Non è stato possibile inviare il messaggio. Riprova.',
+  },
+  notFound: {
+    seoTitle: 'Pagina non trovata — Urbini Global Sports',
+    seoDescription: 'La pagina che stai cercando non esiste o è stata spostata.',
+    errorLabel: 'Errore 404',
+    title: 'Pagina non trovata',
+    text: 'La pagina che stai cercando non esiste o è stata spostata.',
+    button: 'Torna alla home',
+  },
+  validation: {
+    nameRequired: 'Inserisci il tuo nome completo.',
+    nameTooLong: 'Nome troppo lungo.',
+    emailRequired: 'Inserisci la tua email.',
+    emailInvalid: "Inserisci un'email valida.",
+    messageTooShort: 'Il messaggio deve contenere almeno 10 caratteri.',
+    messageTooLong: 'Messaggio troppo lungo.',
+  },
+}

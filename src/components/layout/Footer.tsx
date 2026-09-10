@@ -1,7 +1,10 @@
 import { Container } from '@/components/ui/Container'
 import { TricoloreBar } from '@/components/ui/TricoloreBar'
+import { useT } from '@/lib/i18n/LocaleContext'
+import { LocaleLink } from './LocaleLink'
 
 export function Footer() {
+  const t = useT()
   const year = new Date().getFullYear()
 
   return (
@@ -22,19 +25,19 @@ export function Footer() {
       </div>
 
       <Container className="flex flex-col gap-6 text-xs tracking-wide text-ink-400 sm:flex-row sm:items-center sm:justify-between">
-        <p>Urbini Global Sports &mdash; Gestão de carreiras no futebol.</p>
-        <nav aria-label="Rodapé" className="flex gap-6">
-          <a href="#sobre" className="uppercase tracking-widest hover:text-brand-400">
-            Sobre
-          </a>
-          <a href="#atletas" className="uppercase tracking-widest hover:text-brand-400">
-            Atletas
-          </a>
-          <a href="/contato" className="uppercase tracking-widest hover:text-brand-400">
-            Contato
-          </a>
+        <p>{t.footer.tagline}</p>
+        <nav aria-label={t.footer.ariaFooter} className="flex gap-6">
+          <LocaleLink to="/sobre" className="uppercase tracking-widest hover:text-brand-400">
+            {t.footer.navAbout}
+          </LocaleLink>
+          <LocaleLink to="/atletas" className="uppercase tracking-widest hover:text-brand-400">
+            {t.footer.navAthletes}
+          </LocaleLink>
+          <LocaleLink to="/contato" className="uppercase tracking-widest hover:text-brand-400">
+            {t.footer.navContact}
+          </LocaleLink>
         </nav>
-        <p>&copy; {year} Urbini Global Sports. Todos os direitos reservados.</p>
+        <p>{t.footer.copyright(year)}</p>
       </Container>
     </footer>
   )

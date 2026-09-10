@@ -156,3 +156,18 @@ Vitest + React Testing Library: `ContactForm.test.tsx` (erros de campo obrigató
 ## Verificação de Ponta a Ponta
 
 Após a tarefa 19: navegar pelas 4 rotas em produção, confirmar SSR/prerender via "view page source" (conteúdo deve estar no HTML antes da hydration), submeter o formulário de contato com dados reais e confirmar recebimento do e-mail, rodar Lighthouse (Performance/SEO/Accessibility/Best Practices) na home publicada.
+
+## Próximas Tarefas Extras
+
+### 20. Hero Section com vídeo sincronizado ao scroll (scroll-scrub)
+
+**Desafio**: o maior desafio desta etapa é construir uma Hero Section com vídeo sincronizado ao scroll (scroll-scrub) — a rolagem da página controla a reprodução do vídeo em tempo real, sem uso de bibliotecas externas (sem GSAP ScrollTrigger, sem Lenis).
+
+**Abordagem esperada**: vincular `video.currentTime` ao progresso de scroll da seção via listener de `scroll` + `requestAnimationFrame` (mesmo padrão já usado em `useParallax`/`useSectionTheme`), mantendo o vídeo pausado (`video.pause()`) e setando `currentTime` manualmente a cada frame proporcional ao progresso — em vez de deixá-lo reproduzir de forma autônoma. Pontos a resolver:
+- aguardar `loadedmetadata` antes de calcular a duração total e permitir o scrub;
+- mapear o progresso de scroll da seção (0 a 1, via `getBoundingClientRect`) para `video.duration * progresso`;
+- lidar com a "sujeira" de sets muito frequentes de `currentTime` (navegadores throttlam/ignoram valores repetidos ou muito próximos — vale um `Math.abs(delta) > threshold` antes de setar);
+- respeitar `prefers-reduced-motion`, caindo no poster estático já existente (mesmo padrão do `usePrefersReducedMotion` usado hoje no hero);
+- considerar pin da seção (`position: sticky`) durante o trecho de scroll dedicado ao scrub, para o vídeo não "passar rápido demais".
+
+**Status**: planejado, não iniciado.

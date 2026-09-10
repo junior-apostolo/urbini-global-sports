@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { Menu, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { ChevronDown, Menu, X } from 'lucide-react'
 import { clsx } from 'clsx'
 import { Container } from '@/components/ui/Container'
 import { HoverSwapText } from '@/components/ui/HoverSwapText'
 import { TricoloreBar } from '@/components/ui/TricoloreBar'
 import { useMagnetic } from '@/hooks/useMagnetic'
+import { useLocale, useT } from '@/lib/i18n/LocaleContext'
+import { LOCALE_LABELS, LOCALE_NAMES, LOCALES } from '@/lib/i18n/locales'
+import { LocaleLink, LocaleNavLink } from './LocaleLink'
 
 interface MagneticNavLinkProps {
   to: string
@@ -20,7 +23,7 @@ function MagneticNavLink({ to, end, label, variant = 'link' }: MagneticNavLinkPr
   )
 
   return (
-    <NavLink
+    <LocaleNavLink
       ref={ref}
       to={to}
       end={end}
@@ -38,76 +41,140 @@ function MagneticNavLink({ to, end, label, variant = 'link' }: MagneticNavLinkPr
       }
     >
       <HoverSwapText>{label}</HoverSwapText>
-    </NavLink>
+    </LocaleNavLink>
   )
 }
 
-const NAV_ITEMS = [
-  { to: '/', label: 'Início' },
-  { to: '/sobre', label: 'Sobre' },
-  { to: '/atletas', label: 'Atletas' },
-]
-
-const clockFormatter = new Intl.DateTimeFormat('pt-BR', {
-  timeZone: 'America/Sao_Paulo',
-  hour: '2-digit',
-  minute: '2-digit',
-  second: '2-digit',
-  hour12: false,
-})
-
-function useBrasiliaClock() {
-  const [label, setLabel] = useState<string | null>(null)
+function LanguageSwitcher({ ariaLabel }: { ariaLabel: string }) {
+  const { locale, pathForLocale } = useLocale()
+  const [isOpen, setIsOpen] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const update = () => setLabel(`BRASÍLIA ${clockFormatter.format(new Date())} GMT-3`)
-    update()
-    const id = setInterval(update, 1000)
-    return () => clearInterval(id)
-  }, [])
+    if (!isOpen) return
+    const onClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', onClickOutside)
+    return () => document.removeEventListener('mousedown', onClickOutside)
+  }, [isOpen])
 
-  return label
+  return (
+    <div ref={containerRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setIsOpen((open) => !open)}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-label={ariaLabel}
+        className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-white transition-colors duration-200 hover:text-brand-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900"
+      >
+        {LOCALE_LABELS[locale]}
+        <ChevronDown aria-hidden="true" size={14} className={clsx('transition-transform', isOpen && 'rotate-180')} />
+      </button>
+
+      {isOpen && (
+        <ul
+          role="listbox"
+          className="absolute top-full right-0 mt-3 min-w-32 border-2 border-white/15 bg-ink-900 py-1 shadow-xl"
+        >
+          {LOCALES.map((option) => (
+            <li key={option}>
+              <Link
+                to={pathForLocale(option)}
+                role="option"
+                aria-selected={option === locale}
+                onClick={() => setIsOpen(false)}
+                className={clsx(
+                  'block px-4 py-2 text-xs font-bold uppercase tracking-widest transition-colors',
+                  option === locale ? 'text-brand-500' : 'text-white hover:text-brand-400',
+                )}
+              >
+                {LOCALE_LABELS[option]}
+                <span className="ml-2 text-[10px] font-normal normal-case tracking-normal text-ink-400">
+                  {LOCALE_NAMES[option]}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
 }
 
 export function Header() {
+  const t = useT()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const clockLabel = useBrasiliaClock()
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  const navItems = [
+    { to: '/', label: t.header.navHome },
+    { to: '/sobre', label: t.header.navAbout },
+    { to: '/atletas', label: t.header.navAthletes },
+  ]
+
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-ink-900/80 backdrop-blur-md">
-      <Container className="flex h-20 items-center justify-between">
-        <NavLink
+    <header className="fixed inset-x-0 top-0 z-50">
+      <div
+        aria-hidden="true"
+        className={clsx(
+          '-z-10 absolute inset-0 bg-linear-to-b from-ink-900/75 via-ink-900/35 to-transparent transition-opacity duration-500 ease-out',
+          isScrolled ? 'opacity-0' : 'opacity-100',
+        )}
+      />
+      <div
+        aria-hidden="true"
+        className={clsx(
+          '-z-10 absolute inset-0 bg-ink-900/95 backdrop-blur-md transition-opacity duration-500 ease-out',
+          isScrolled ? 'opacity-100' : 'opacity-0',
+        )}
+      />
+
+      <Container className="relative grid h-28 grid-cols-[1fr_auto_1fr] items-center gap-4">
+        <LocaleLink
           to="/"
-          className="font-serif text-lg font-medium tracking-tight text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 sm:text-xl"
+          className="justify-self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
           onClick={() => setIsMenuOpen(false)}
         >
-          Urbini<span className="text-brand-500">.</span>Global Sports
-        </NavLink>
+          <img src="/logo-ugs.svg" alt="Urbini Global Sports" className="h-28 w-auto" />
+        </LocaleLink>
 
-        <span
-          aria-hidden="true"
-          className="hidden font-mono text-[11px] uppercase tracking-[0.15em] text-ink-400 lg:block"
-        >
-          {clockLabel ?? ' '}
-        </span>
-
-        <nav aria-label="Navegação principal" className="hidden items-center gap-8 md:flex">
+        <nav aria-label={t.header.ariaNav} className="hidden justify-self-center md:block">
           <ul className="flex items-center gap-8">
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <li key={item.to}>
                 <MagneticNavLink to={item.to} end={item.to === '/'} label={item.label} />
               </li>
             ))}
           </ul>
-          <MagneticNavLink to="/contato" label="Contato" variant="button" />
         </nav>
+
+        <div className="hidden items-center gap-6 justify-self-end md:flex">
+          <LocaleLink
+            to="/contato"
+            className="inline-flex items-center border-2 border-white/70 px-5 py-2.5 text-xs font-extrabold uppercase tracking-[0.08em] text-white transition-colors duration-200 hover:border-white hover:bg-white hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900"
+          >
+            {t.header.contactCta}
+          </LocaleLink>
+          <LanguageSwitcher ariaLabel={t.header.languageAria} />
+        </div>
 
         <button
           type="button"
-          className="inline-flex items-center justify-center p-2 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 md:hidden"
+          className="col-start-3 inline-flex items-center justify-self-end p-2 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 md:hidden"
           aria-expanded={isMenuOpen}
           aria-controls="mobile-menu"
-          aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+          aria-label={isMenuOpen ? t.header.ariaCloseMenu : t.header.ariaOpenMenu}
           onClick={() => setIsMenuOpen((open) => !open)}
         >
           {isMenuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
@@ -115,11 +182,11 @@ export function Header() {
       </Container>
 
       {isMenuOpen && (
-        <nav id="mobile-menu" aria-label="Navegação principal" className="border-t border-white/10 bg-ink-900 md:hidden">
+        <nav id="mobile-menu" aria-label={t.header.ariaNav} className="border-t border-white/10 bg-ink-900 md:hidden">
           <ul className="flex flex-col gap-1 px-4 py-3">
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <li key={item.to}>
-                <NavLink
+                <LocaleNavLink
                   to={item.to}
                   end={item.to === '/'}
                   onClick={() => setIsMenuOpen(false)}
@@ -131,11 +198,11 @@ export function Header() {
                   }
                 >
                   {item.label}
-                </NavLink>
+                </LocaleNavLink>
               </li>
             ))}
             <li>
-              <NavLink
+              <LocaleNavLink
                 to="/contato"
                 onClick={() => setIsMenuOpen(false)}
                 className={({ isActive }) =>
@@ -145,14 +212,22 @@ export function Header() {
                   )
                 }
               >
-                Contato
-              </NavLink>
+                {t.header.mobileContact}
+              </LocaleNavLink>
+            </li>
+            <li className="border-t border-white/10 px-3 pt-3">
+              <LanguageSwitcher ariaLabel={t.header.languageAria} />
             </li>
           </ul>
         </nav>
       )}
 
-      <TricoloreBar className="h-0.75" />
+      <TricoloreBar
+        className={clsx(
+          'relative h-0.75 transition-opacity duration-500 ease-out',
+          isScrolled ? 'opacity-100' : 'opacity-0',
+        )}
+      />
     </header>
   )
 }

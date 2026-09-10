@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import type { Athlete } from '@/data/athletes'
 import { useParallax } from '@/hooks/useParallax'
+import { useT } from '@/lib/i18n/LocaleContext'
 import { AthleteCard } from './AthleteCard'
 
 interface AthleteGridProps {
@@ -15,11 +16,11 @@ function ParallaxItem({ speed, children }: { speed: number; children: ReactNode 
 }
 
 export function AthleteGrid({ athletes }: AthleteGridProps) {
+  const t = useT()
+
   if (athletes.length === 0) {
     return (
-      <p className="border-2 border-ink-900 px-6 py-8 text-sm text-ink-600">
-        Nenhum atleta encontrado para esse filtro.
-      </p>
+      <p className="border-2 border-ink-900 px-6 py-8 text-sm text-ink-600">{t.athletes.emptyMessage}</p>
     )
   }
 

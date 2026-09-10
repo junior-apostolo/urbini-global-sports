@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { AthleteCard } from '@/components/athletes/AthleteCard'
 import type { Athlete } from '@/data/athletes'
+import { renderWithProviders } from './testUtils'
 
 const athlete: Athlete = {
   id: 'test-athlete',
@@ -14,13 +15,13 @@ const athlete: Athlete = {
 
 describe('AthleteCard', () => {
   it('renderiza a foto com alt descritivo', () => {
-    render(<AthleteCard athlete={athlete} />)
+    renderWithProviders(<AthleteCard athlete={athlete} />)
     const image = screen.getByRole('img', { name: `Foto de ${athlete.name}` })
     expect(image).toBeInTheDocument()
   })
 
   it('renderiza o link do Instagram com target e rel corretos', () => {
-    render(<AthleteCard athlete={athlete} />)
+    renderWithProviders(<AthleteCard athlete={athlete} />)
     const link = screen.getByRole('link', { name: `Instagram de ${athlete.name}` })
     expect(link).toHaveAttribute('href', athlete.instagramUrl)
     expect(link).toHaveAttribute('target', '_blank')
