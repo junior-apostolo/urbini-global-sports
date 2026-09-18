@@ -21,21 +21,21 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 
 const HERO_POSTER = 'https://placehold.co/1600x1000.webp?text=Urbini+Sports'
 
-const FEATURED_ATHLETES = ATHLETES_DATA.slice(0, 4)
-
 interface StatCounterProps {
   label: string
   value: number
+  prefix?: string
   suffix?: string
   active: boolean
 }
 
-function StatCounter({ label, value, suffix = '', active }: StatCounterProps) {
+function StatCounter({ label, value, prefix = '', suffix = '', active }: StatCounterProps) {
   const count = useCountUp(value, active)
 
   return (
     <div>
       <div className="text-[clamp(2.25rem,4.5vw,4rem)] font-extrabold leading-none tracking-tight text-brand-500">
+        {prefix}
         {count}
         {suffix}
       </div>
@@ -73,15 +73,14 @@ export function Home() {
     return () => observer.disconnect()
   }, [prefersReducedMotion])
 
-  const stats = useMemo(() => {
-    const clubs = new Set(ATHLETES_DATA.map((athlete) => athlete.club))
-    return [
-      { label: t.home.statAthletes, value: ATHLETES_DATA.length },
-      { label: t.home.statClubs, value: clubs.size },
-      { label: t.home.statYears, value: 8 },
+  const stats = useMemo(
+    () => [
+      { label: t.home.statAthletes, value: 20, prefix: '+' },
+      { label: t.home.statScouting, value: 30, prefix: '+' },
       { label: t.home.statDedication, value: 100, suffix: '%' },
-    ]
-  }, [t])
+    ],
+    [t],
+  )
 
   const clubs = useMemo(
     () => Array.from(new Set(ATHLETES_DATA.map((athlete) => athlete.club))),
@@ -182,21 +181,72 @@ export function Home() {
 
       {/* MANIFESTO + STATS */}
       <section ref={manifestoThemeRef}>
-        <Container className="py-28 sm:py-32">
-          <Reveal as="h6" className="mb-6 text-xs font-extrabold uppercase tracking-[0.2em] text-brand-500">
-            {t.home.manifestoEyebrow}
-          </Reveal>
-          <WipeReveal
-            as="p"
-            delay={100}
-            className="block max-w-4xl text-[clamp(1.5rem,3.5vw,2.75rem)] font-extrabold leading-[1.15] tracking-tight text-ink-900"
+        {/* Relative + full-width: lets the desktop image below break out of the max-w-6xl container and reach the real viewport edge. */}
+        <div className="relative pt-28 sm:pt-32">
+          <div className="mx-auto max-w-6xl pl-4 sm:pl-6 lg:pl-8">
+            <div className="grid gap-12 lg:grid-cols-[1.35fr_1fr] lg:items-center lg:gap-10">
+              <div className="pr-4 sm:pr-6 lg:pr-0">
+                <Reveal as="h6" className="mb-6 text-xs font-extrabold uppercase tracking-[0.2em] text-brand-500">
+                  {t.home.manifestoEyebrow}
+                </Reveal>
+                <WipeReveal
+                  as="p"
+                  delay={100}
+                  className="block max-w-2xl text-[clamp(1.4rem,3vw,2.25rem)] font-extrabold leading-[1.2] tracking-tight text-ink-900"
+                >
+                  {t.home.manifestoTextIntro}
+                </WipeReveal>
+                <WipeReveal
+                  as="p"
+                  delay={180}
+                  className="mt-6 block max-w-xl text-sm leading-relaxed text-ink-700 sm:text-base"
+                >
+                  {t.home.manifestoTextBody}
+                </WipeReveal>
+              </div>
+
+              {/* Mobile/tablet: image sits in normal flow, edge-to-edge. Hidden (but still reserving its space) at lg+, where the breakout version below takes over. */}
+              <Reveal delay={120} className="relative aspect-4/5 w-full lg:invisible">
+                <div
+                  className="absolute inset-0 bg-ink-100"
+                  style={{ clipPath: 'polygon(3% 0%, 100% 0%, 100% 100%, 3% 100%, 8% 50%)' }}
+                  aria-hidden="true"
+                />
+                <img
+                  src="/manifesto-team.png"
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover"
+                  style={{ clipPath: 'polygon(3% 0%, 100% 0%, 100% 100%, 3% 100%, 8% 50%)' }}
+                />
+              </Reveal>
+            </div>
+          </div>
+
+          {/* Desktop: image breaks out of the container and bleeds flush to the real browser edge, regardless of viewport width. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-0 hidden lg:block lg:w-[34%]"
           >
-            {t.home.manifestoText}
-          </WipeReveal>
+            <div
+              className="absolute inset-0 bg-ink-100"
+              style={{ clipPath: 'polygon(3% 0%, 100% 0%, 100% 100%, 3% 100%, 8% 50%)' }}
+            />
+            <img
+              src="/manifesto-team.png"
+              alt=""
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ clipPath: 'polygon(3% 0%, 100% 0%, 100% 100%, 3% 100%, 8% 50%)' }}
+            />
+          </div>
+        </div>
 
-          <div className="my-16 h-0.5 bg-ink-100" aria-hidden="true" />
+        <Container className="pb-28 sm:pb-32">
+          <div className="mt-16 h-0.5 bg-ink-100" aria-hidden="true" />
 
-          <div ref={statsRef} className="grid grid-cols-2 gap-10 lg:grid-cols-4">
+          <div ref={statsRef} className="mt-16 grid grid-cols-2 gap-10 sm:grid-cols-3">
             {stats.map((stat) => (
               <StatCounter key={stat.label} {...stat} active={statsVisible} />
             ))}
@@ -218,7 +268,7 @@ export function Home() {
           </div>
         </Container>
         <div className="pb-16">
-          <AthleteCarousel athletes={FEATURED_ATHLETES} />
+          <AthleteCarousel athletes={ATHLETES_DATA} />
         </div>
       </section>
 

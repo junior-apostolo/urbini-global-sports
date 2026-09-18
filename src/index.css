@@ -39,7 +39,6 @@
   --color-ink-900: #171514;
 
   --animate-marquee: marquee 22s linear infinite;
-  --animate-marquee-slow: marquee 36s linear infinite;
 }
 
 @keyframes marquee {
@@ -107,8 +106,29 @@ body {
   transform: translateX(101%);
 }
 
-.athlete-carousel:hover .athlete-carousel-track {
-  animation-play-state: paused;
+/* Aligns the first card with the page container while still letting the track bleed to the viewport edges. Mirrors Container's gutters (px-4 / sm:px-6 / lg:px-8, max-w-6xl). */
+.athlete-carousel-scroller {
+  --carousel-gutter: 1rem;
+  --carousel-inset: max(var(--carousel-gutter), calc((100% - 72rem) / 2 + var(--carousel-gutter)));
+  padding-inline: var(--carousel-inset);
+  scroll-padding-inline: var(--carousel-inset);
+  scrollbar-width: none;
+}
+
+.athlete-carousel-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 40rem) {
+  .athlete-carousel-scroller {
+    --carousel-gutter: 1.5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .athlete-carousel-scroller {
+    --carousel-gutter: 2rem;
+  }
 }
 
 .preloader-mask {
