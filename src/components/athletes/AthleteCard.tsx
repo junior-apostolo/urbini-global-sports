@@ -12,7 +12,7 @@ interface AthleteCardProps {
 export function AthleteCard({ athlete }: AthleteCardProps) {
   const { ref, style, onMouseMove, onMouseLeave } = useMagnetic<HTMLElement>(0.05)
   const t = useT()
-  const position = t.positions[athlete.position]
+  const position = athlete.position ? t.positions[athlete.position] : '-'
 
   return (
     <article
@@ -38,15 +38,17 @@ export function AthleteCard({ athlete }: AthleteCardProps) {
         </span>
 
         {/* Sits above the card-wide profile link (z-10) so it stays independently clickable. */}
-        <a
-          href={athlete.instagramUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={t.athletes.instagramAria(athlete.name)}
-          className="absolute right-3 bottom-3 z-10 inline-flex size-10 items-center justify-center bg-brand-500 text-white opacity-0 transition-[opacity,background-color] duration-200 group-hover:opacity-100 hover:bg-brand-600 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white pointer-coarse:opacity-100"
-        >
-          <InstagramIcon />
-        </a>
+        {athlete.instagramUrl && (
+          <a
+            href={athlete.instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t.athletes.instagramAria(athlete.name)}
+            className="absolute right-3 bottom-3 z-10 inline-flex size-10 items-center justify-center bg-brand-500 text-white opacity-0 transition-[opacity,background-color] duration-200 group-hover:opacity-100 hover:bg-brand-600 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white pointer-coarse:opacity-100"
+          >
+            <InstagramIcon />
+          </a>
+        )}
       </div>
 
       <div className="flex items-start justify-between gap-3 border-t-2 border-ink-900 p-4">
@@ -62,7 +64,7 @@ export function AthleteCard({ athlete }: AthleteCardProps) {
             </LocaleLink>
           </h3>
           <p className="text-sm text-ink-600">
-            {position} &middot; {athlete.club}
+            {position} &middot; {athlete.club ?? '-'}
           </p>
         </div>
         <ArrowUpRight

@@ -22,14 +22,16 @@ function Fact({ label, children }: { label: string; children: ReactNode }) {
   )
 }
 
-function BigStat({ label, value, unit }: { label: string; value: number; unit: string }) {
+function BigStat({ label, value, unit }: { label: string; value: number | null; unit: string }) {
   return (
     // dt must precede dd in the DOM; flex-col-reverse puts the big number visually on top.
     <div className="flex flex-col-reverse justify-end">
       <dt className="mt-3 text-[11px] font-bold uppercase tracking-widest text-ink-400">{label}</dt>
       <dd className="flex items-baseline gap-1.5 text-[clamp(2.25rem,5vw,4rem)] font-extrabold leading-none tabular-nums tracking-tight text-white">
-        {value}
-        <span className="text-sm font-bold uppercase tracking-widest text-brand-400">{unit}</span>
+        {value ?? '-'}
+        {value !== null && (
+          <span className="text-sm font-bold uppercase tracking-widest text-brand-400">{unit}</span>
+        )}
       </dd>
     </div>
   )
@@ -49,20 +51,27 @@ export function AthleteDetail() {
   if (!athlete) return <NotFound />
 
   const labels = t.athleteDetail
-  const position = t.positions[athlete.position]
+  const position = athlete.position ? t.positions[athlete.position] : '-'
   const { given, family } = splitAthleteName(athlete.name)
   const age = calculateAge(athlete.birthDate)
+  const formattedBirthDate = formatBirthDate(athlete.birthDate, locale)
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: athlete.name,
-    jobTitle: position,
-    affiliation: athlete.club,
-    birthDate: athlete.birthDate,
-    height: { '@type': 'QuantitativeValue', value: athlete.heightCm, unitCode: 'CMT' },
-    weight: { '@type': 'QuantitativeValue', value: athlete.weightKg, unitCode: 'KGM' },
-    sameAs: [athlete.instagramUrl],
+    jobTitle: athlete.position ? position : undefined,
+    affiliation: athlete.club ?? undefined,
+    birthDate: athlete.birthDate ?? undefined,
+    height:
+      athlete.heightCm != null
+        ? { '@type': 'QuantitativeValue', value: athlete.heightCm, unitCode: 'CMT' }
+        : undefined,
+    weight:
+      athlete.weightKg != null
+        ? { '@type': 'QuantitativeValue', value: athlete.weightKg, unitCode: 'KGM' }
+        : undefined,
+    sameAs: athlete.instagramUrl ? [athlete.instagramUrl] : undefined,
   }
 
   return (
@@ -131,9 +140,9 @@ export function AthleteDetail() {
 
             <Reveal>
               <dl className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-3">
-                <Fact label={labels.birthDate}>{formatBirthDate(athlete.birthDate, locale)}</Fact>
+                <Fact label={labels.birthDate}>{formattedBirthDate ?? '-'}</Fact>
                 <Fact label={labels.position}>{position}</Fact>
-                <Fact label={labels.club}>{athlete.club}</Fact>
+                <Fact label={labels.club}>{athlete.club ?? '-'}</Fact>
               </dl>
             </Reveal>
 
@@ -145,20 +154,22 @@ export function AthleteDetail() {
               </dl>
             </Reveal>
 
-            <Reveal delay={200}>
-              <a
-                href={athlete.instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex w-fit items-center gap-3 bg-brand-500 px-6 py-3.5 text-xs font-extrabold uppercase tracking-[0.08em] text-white transition-colors duration-200 hover:bg-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900"
-              >
-                <InstagramIcon size={18} />
-                <span>{labels.instagramCta}</span>
-                <span className="font-semibold normal-case tracking-normal text-white/80">
-                  {getInstagramHandle(athlete.instagramUrl)}
-                </span>
-              </a>
-            </Reveal>
+            {athlete.instagramUrl && (
+              <Reveal delay={200}>
+                <a
+                  href={athlete.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex w-fit items-center gap-3 bg-brand-500 px-6 py-3.5 text-xs font-extrabold uppercase tracking-[0.08em] text-white transition-colors duration-200 hover:bg-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900"
+                >
+                  <InstagramIcon size={18} />
+                  <span>{labels.instagramCta}</span>
+                  <span className="font-semibold normal-case tracking-normal text-white/80">
+                    {getInstagramHandle(athlete.instagramUrl)}
+                  </span>
+                </a>
+              </Reveal>
+            )}
           </div>
         </div>
 

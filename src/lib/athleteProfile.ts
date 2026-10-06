@@ -5,16 +5,18 @@ function parseIsoDate(isoDate: string) {
   return { year, month, day }
 }
 
-/** Full years elapsed since `birthDate` (ISO YYYY-MM-DD). */
-export function calculateAge(birthDate: string, today: Date = new Date()): number {
+/** Full years elapsed since `birthDate` (ISO YYYY-MM-DD), or `null` when the birth date isn't known. */
+export function calculateAge(birthDate: string | null, today: Date = new Date()): number | null {
+  if (!birthDate) return null
   const { year, month, day } = parseIsoDate(birthDate)
   const hadBirthdayThisYear =
     today.getMonth() + 1 > month || (today.getMonth() + 1 === month && today.getDate() >= day)
   return today.getFullYear() - year - (hadBirthdayThisYear ? 0 : 1)
 }
 
-/** Localized long date, e.g. "14 de março de 2000". Formatted in UTC so the day never shifts with the viewer's timezone. */
-export function formatBirthDate(birthDate: string, locale: Locale): string {
+/** Localized long date, e.g. "14 de março de 2000". Formatted in UTC so the day never shifts with the viewer's timezone. `null` when the birth date isn't known. */
+export function formatBirthDate(birthDate: string | null, locale: Locale): string | null {
+  if (!birthDate) return null
   const { year, month, day } = parseIsoDate(birthDate)
   return new Intl.DateTimeFormat(LOCALE_HTML_LANG[locale], {
     day: 'numeric',
@@ -24,8 +26,9 @@ export function formatBirthDate(birthDate: string, locale: Locale): string {
   }).format(new Date(Date.UTC(year, month - 1, day)))
 }
 
-/** "@handle" extracted from an Instagram profile URL. */
-export function getInstagramHandle(instagramUrl: string): string {
+/** "@handle" extracted from an Instagram profile URL, or `null` when there's no Instagram on file. */
+export function getInstagramHandle(instagramUrl: string | null): string | null {
+  if (!instagramUrl) return null
   const handle = /instagram\.com\/([^/?#]+)/.exec(instagramUrl)?.[1]
   return handle ? `@${handle}` : instagramUrl
 }

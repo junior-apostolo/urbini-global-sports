@@ -2,13 +2,50 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { AthleteDetail } from '@/pages/AthleteDetail'
-import { ATHLETES_DATA } from '@/data/athletes'
+import type { Athlete } from '@/data/athletes'
 import { LocaleProvider } from '@/lib/i18n/LocaleContext'
 
 // <Head> needs the HelmetProvider that only vite-react-ssg mounts; head tags aren't under test here.
 vi.mock('@/components/seo/Seo', () => ({ Seo: () => null }))
 
-const athlete = ATHLETES_DATA[0]
+// Decoupled from the real roster so this test doesn't break every time an athlete's info changes.
+const { completeAthlete, incompleteAthlete } = vi.hoisted(() => {
+  const completeAthlete: Athlete = {
+    id: 'completo',
+    name: 'João Pedro Silva',
+    position: 'Goleiro',
+    club: 'Athletico Paranaense',
+    birthDate: '2000-03-14',
+    heightCm: 192,
+    weightKg: 87,
+    photoUrl: '/athletes/completo.jpg',
+    instagramUrl: 'https://www.instagram.com/joaopedrosilva/',
+  }
+
+  const incompleteAthlete: Athlete = {
+    id: 'incompleto',
+    name: 'Atleta Sem Dados',
+    position: null,
+    club: null,
+    birthDate: null,
+    heightCm: null,
+    weightKg: null,
+    photoUrl: '/athletes/incompleto.jpg',
+    instagramUrl: null,
+  }
+
+  return { completeAthlete, incompleteAthlete }
+})
+
+vi.mock('@/data/athletes', () => {
+  const athletes = [completeAthlete, incompleteAthlete]
+  return {
+    ATHLETES_DATA: athletes,
+    findAthleteById: (id?: string) => athletes.find((athlete) => athlete.id === id),
+  }
+})
+
+const athlete = completeAthlete
 
 function renderDetail(route: string) {
   return render(
@@ -37,7 +74,7 @@ describe('AthleteDetail', () => {
       athlete.photoUrl,
     )
     expect(screen.getByText('Goleiro')).toBeInTheDocument()
-    expect(screen.getByText(athlete.club)).toBeInTheDocument()
+    expect(screen.getByText(athlete.club!)).toBeInTheDocument()
     expect(screen.getByText('14 de março de 2000')).toBeInTheDocument()
     expect(screen.getByText('Idade').nextElementSibling).toHaveTextContent(/^\d+anos$/)
     expect(screen.getByText('Altura').nextElementSibling).toHaveTextContent(`${athlete.heightCm}cm`)
@@ -47,9 +84,22 @@ describe('AthleteDetail', () => {
   it('linka para o Instagram do atleta em nova aba', () => {
     renderDetail(`/atletas/${athlete.id}`)
     const link = screen.getByRole('link', { name: /Seguir no Instagram/ })
-    expect(link).toHaveAttribute('href', athlete.instagramUrl)
+    expect(link).toHaveAttribute('href', athlete.instagramUrl!)
     expect(link).toHaveAttribute('target', '_blank')
     expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+  })
+
+  it('mostra "-" para dados ainda não informados e oculta o botão do Instagram', () => {
+    renderDetail(`/atletas/${incompleteAthlete.id}`)
+
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(incompleteAthlete.name)
+    expect(screen.getByText('Idade').nextElementSibling).toHaveTextContent('-')
+    expect(screen.getByText('Altura').nextElementSibling).toHaveTextContent('-')
+    expect(screen.getByText('Peso').nextElementSibling).toHaveTextContent('-')
+    expect(screen.getByText('Posição').nextElementSibling).toHaveTextContent('-')
+    expect(screen.getByText('Clube').nextElementSibling).toHaveTextContent('-')
+    expect(screen.getByText('Data de nascimento').nextElementSibling).toHaveTextContent('-')
+    expect(screen.queryByRole('link', { name: /Seguir no Instagram/ })).not.toBeInTheDocument()
   })
 
   it('oferece caminho de volta para a lista de atletas no idioma da rota', () => {

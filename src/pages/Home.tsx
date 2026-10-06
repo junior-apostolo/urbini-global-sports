@@ -83,9 +83,9 @@ export function Home() {
   )
 
   const clubs = useMemo(
-    () => Array.from(new Set(ATHLETES_DATA.map((athlete) => athlete.club))),
+    () => Array.from(new Set(ATHLETES_DATA.map((athlete) => athlete.club).filter(Boolean))),
     [],
-  )
+  ) as string[]
 
   const jsonLd = {
     '@context': 'https://schema.org',

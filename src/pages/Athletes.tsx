@@ -29,9 +29,9 @@ export function Athletes() {
       item: {
         '@type': 'Person',
         name: athlete.name,
-        jobTitle: t.positions[athlete.position],
-        affiliation: athlete.club,
-        sameAs: [athlete.instagramUrl],
+        jobTitle: athlete.position ? t.positions[athlete.position] : undefined,
+        affiliation: athlete.club ?? undefined,
+        sameAs: athlete.instagramUrl ? [athlete.instagramUrl] : undefined,
       },
     })),
   }

@@ -10,13 +10,14 @@ const POSITION_DOT: Record<Position, { x: number; y: number }> = {
 }
 
 interface PositionPitchProps {
-  position: Position
+  /** `null` when the athlete's position isn't known yet — the dot is omitted. */
+  position: Position | null
   className?: string
 }
 
 /** Decorative mini pitch with a dot marking where the athlete plays. The position is always spelled out in text next to it. */
 export function PositionPitch({ position, className }: PositionPitchProps) {
-  const { x, y } = POSITION_DOT[position]
+  const dot = position ? POSITION_DOT[position] : null
 
   return (
     <svg viewBox="0 0 100 64" aria-hidden="true" className={className}>
@@ -29,8 +30,12 @@ export function PositionPitch({ position, className }: PositionPitchProps) {
         <rect x={85.5} y={17} width={14} height={30} />
         <rect x={94.5} y={25} width={5} height={14} />
       </g>
-      <circle cx={x} cy={y} r={5.5} className="fill-brand-500/30" />
-      <circle cx={x} cy={y} r={2.6} className="fill-brand-500" />
+      {dot && (
+        <>
+          <circle cx={dot.x} cy={dot.y} r={5.5} className="fill-brand-500/30" />
+          <circle cx={dot.x} cy={dot.y} r={2.6} className="fill-brand-500" />
+        </>
+      )}
     </svg>
   )
 }
